@@ -53,14 +53,16 @@
 /* Timer Card */
 .timer {
   font-size: 4em;
-  font-weight: bold;
+  font-weight: normal;
   color: var(--text-color);
   margin: var(--spacing-xl) 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-timer);
   background: var(--background-light);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
   border: 3px solid var(--primary-color);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Statistics Cards */

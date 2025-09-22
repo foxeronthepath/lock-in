@@ -1,0 +1,12 @@
+/* Digital Timer Fonts */
+
+/* Digital-7 Font - Classic Seven Segment Display */
+@font-face {
+  font-family: 'ds-digital';
+  src: url('../fonts/ds-digital.ttf') format('truetype'),
+       url('../fonts/ds-digitalb.ttf') format('truetype'),
+       url('../fonts/ds-digitali.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,5 +1,6 @@
 /* Main CSS - Import all components */
 
+@import './fonts.css';
 @import './base.css';
 @import './components/buttons.css';
 @import './components/forms.css';
@@ -22,6 +23,7 @@
 
 /* Logo styles */
 .logo {
+  font-family: var(--font-heading);
   font-size: 2.5em;
   font-weight: bold;
   color: var(--primary-color);
@@ -42,7 +44,8 @@
   }
   
   .timer {
-    font-size: 3em;
+    font-family: var( --font-timer);
+    font-size: 5em;
     padding: var(--spacing-md);
   }
   

@@ -21,6 +21,9 @@
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Courier New", monospace;
   
+  /* Custom Font Variables */
+  --font-timer: "ds-digital";
+  
   /* Spacing */
   --spacing-xs: 5px;
   --spacing-sm: 10px;
