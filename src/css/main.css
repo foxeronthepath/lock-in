@@ -1,0 +1,65 @@
+/* Main CSS - Import all components */
+
+@import './base.css';
+@import './components/buttons.css';
+@import './components/forms.css';
+@import './components/cards.css';
+@import './components/reports.css';
+
+/* Page-specific styles */
+.controls {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin: var(--spacing-xl) 0;
+}
+
+.controls button {
+  min-width: 100px;
+}
+
+/* Logo styles */
+.logo {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container,
+  .login-container {
+    margin: var(--spacing-lg);
+    padding: var(--spacing-lg);
+  }
+  
+  .timer {
+    font-size: 3em;
+    padding: var(--spacing-md);
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .controls button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+}

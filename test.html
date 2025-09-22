@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Logout</title>
+</head>
+<body>
+    <button onclick="testLogout()">Test Logout Function</button>
+    <div id="result"></div>
+    
+    <script type="module">
+        import './src/js/app.js';
+        
+        window.testLogout = async () => {
+            const result = document.getElementById('result');
+            try {
+                if (typeof window.logout === 'function') {
+                    result.innerHTML = 'Logout function exists!<br>';
+                    // Test call (won't actually work without being logged in)
+                    result.innerHTML += 'Logout function is available and callable.';
+                } else {
+                    result.innerHTML = 'ERROR: Logout function not found!';
+                }
+            } catch (error) {
+                result.innerHTML = 'ERROR: ' + error.message;
+            }
+        };
+    </script>
+</body>
+</html>

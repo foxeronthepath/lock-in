@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lock In - Focus Timer</title>
-    <link rel="stylesheet" href="style/main-page.css" />
+    <link rel="stylesheet" href="../src/css/main.css" />
   </head>
   <body>
-    <div class="container">
+    <div class="container card">
       <div id="loadingSection" class="loading">
         <div>🔄 Loading...</div>
       </div>
@@ -22,8 +22,8 @@
         <div id="timer" class="timer">00:00:00</div>
 
         <div class="controls">
-          <button onclick="start()" id="startBtn">▶️ Start</button>
-          <button onclick="stop()" id="stopBtn" disabled>⏸️ Stop</button>
+          <button onclick="start()" id="startBtn" class="btn btn-success">▶️ Start</button>
+          <button onclick="stop()" id="stopBtn" class="btn btn-danger" disabled>⏸️ Stop</button>
         </div>
 
         <!-- Reports Panel -->
@@ -31,7 +31,7 @@
           <div class="panel-header">
             <h3>📊 Work Reports</h3>
             <div class="report-controls">
-              <button onclick="toggleReports()" id="toggleReportsBtn">Show Reports</button>
+              <button onclick="toggleReports()" id="toggleReportsBtn" class="btn btn-primary btn-sm">Show Reports</button>
             </div>
           </div>
           
@@ -68,33 +68,6 @@
       </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-      // Import Firebase functions
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-      import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-      // Your Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyAZrwIsx8Fs9O07-9OOuKLYqd-PBBw7LN4",
-        authDomain: "lock-in-5e24e.firebaseapp.com",
-        projectId: "lock-in-5e24e",
-        storageBucket: "lock-in-5e24e.firebasestorage.app",
-        messagingSenderId: "274698678652",
-        appId: "1:274698678652:web:b9483255c355b1860b74f9",
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      window.auth = getAuth(app);
-      window.db = getFirestore(app);
-
-      console.log("Firebase initialized successfully!");
-    </script>
-
-    <script type="module" src="auth.js"></script>
-    <script src="timer.js"></script>
-    <script src="reports.js"></script>
+    <script type="module" src="../src/js/app.js"></script>
   </body>
 </html>
