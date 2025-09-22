@@ -1,23 +1,100 @@
 // Reports Module
 class ReportsService {
   constructor() {
-    this.reportsVisible = false;
+    this.overlayVisible = false;
+    this.setupEventListeners();
   }
 
-  toggleReports() {
-    const reportsContent = document.getElementById('reportsContent');
-    const toggleBtn = document.getElementById('toggleReportsBtn');
-    
-    this.reportsVisible = !this.reportsVisible;
-    
-    if (this.reportsVisible) {
-      reportsContent.style.display = 'block';
-      toggleBtn.textContent = 'Hide Reports';
-      this.loadReports();
+  setupEventListeners() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.bindEvents());
     } else {
-      reportsContent.style.display = 'none';
-      toggleBtn.textContent = 'Show Reports';
+      this.bindEvents();
     }
+  }
+
+  bindEvents() {
+    const closeBtn = document.getElementById('closeReportsBtn');
+    const overlay = document.getElementById('reportsOverlay');
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.hideOverlay());
+    }
+
+    if (overlay) {
+      // Close overlay when clicking on backdrop
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          this.hideOverlay();
+        }
+      });
+
+      // Prevent modal content clicks from closing overlay
+      const modal = overlay.querySelector('.reports-modal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+    }
+
+    // Escape key to close overlay
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.overlayVisible) {
+        this.hideOverlay();
+      }
+    });
+  }
+
+  showOverlay() {
+    const overlay = document.getElementById('reportsOverlay');
+    if (!overlay) return;
+
+    this.overlayVisible = true;
+    
+    // Prevent body scroll when overlay is open
+    document.body.style.overflow = 'hidden';
+    
+    // Show overlay with a slight delay for smoother animation
+    requestAnimationFrame(() => {
+      overlay.classList.add('show');
+    });
+    
+    // Load reports data after a brief delay to let the animation start
+    setTimeout(() => {
+      this.loadReports();
+    }, 100);
+  }
+
+  hideOverlay() {
+    const overlay = document.getElementById('reportsOverlay');
+    if (!overlay) return;
+
+    this.overlayVisible = false;
+    overlay.classList.remove('show');
+    
+    // Restore body scroll after animation completes
+    setTimeout(() => {
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  toggleOverlay() {
+    if (this.overlayVisible) {
+      this.hideOverlay();
+    } else {
+      this.showOverlay();
+    }
+  }
+
+  // Legacy method for backward compatibility
+  toggleReports() {
+    this.toggleOverlay();
+  }
+
+  isReportsOpen() {
+    return this.overlayVisible;
   }
 
   async loadReports() {

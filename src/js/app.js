@@ -98,6 +98,70 @@ class App {
         this.handleSignOut();
       });
     }
+
+    // Settings panel event listeners
+    this.setupSettingsListeners();
+  }
+
+  setupSettingsListeners() {
+    // Close settings button
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    if (closeSettingsBtn) {
+      closeSettingsBtn.addEventListener('click', () => {
+        this.closeSettings();
+      });
+    }
+
+    // Settings overlay click to close
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    if (settingsOverlay) {
+      settingsOverlay.addEventListener('click', () => {
+        this.closeSettings();
+      });
+    }
+
+    // Save settings button
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    if (saveSettingsBtn) {
+      saveSettingsBtn.addEventListener('click', () => {
+        this.saveSettings();
+      });
+    }
+
+    // Export data button
+    const exportDataBtn = document.getElementById('exportDataBtn');
+    if (exportDataBtn) {
+      exportDataBtn.addEventListener('click', () => {
+        this.exportData();
+      });
+    }
+
+    // Clear data button
+    const clearDataBtn = document.getElementById('clearDataBtn');
+    if (clearDataBtn) {
+      clearDataBtn.addEventListener('click', () => {
+        this.clearData();
+      });
+    }
+
+    // Theme selector change
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      themeSelect.addEventListener('change', () => {
+        const selectedTheme = themeSelect.value;
+        this.setTheme(selectedTheme);
+      });
+    }
+
+    // Escape key to close settings
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const settingsPanel = document.getElementById('settingsPanel');
+        if (settingsPanel && settingsPanel.classList.contains('open')) {
+          this.closeSettings();
+        }
+      }
+    });
   }
 
   setTheme(theme) {
@@ -135,8 +199,201 @@ class App {
   }
 
   openSettings() {
-    // For now, show a simple alert - can be expanded to a modal later
-    alert('Settings panel coming soon! 🛠️\n\nHere you could configure:\n• Theme preferences\n• Timer settings\n• Notification preferences\n• Data export options');
+    const settingsPanel = document.getElementById('settingsPanel');
+    if (settingsPanel) {
+      settingsPanel.classList.add('open');
+      this.loadSettings();
+      // Focus management for accessibility
+      const closeBtn = document.getElementById('closeSettingsBtn');
+      if (closeBtn) {
+        closeBtn.focus();
+      }
+    }
+  }
+
+  closeSettings() {
+    const settingsPanel = document.getElementById('settingsPanel');
+    if (settingsPanel) {
+      settingsPanel.classList.remove('open');
+    }
+  }
+
+  loadSettings() {
+    // Load theme setting
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      themeSelect.value = savedTheme;
+    }
+
+    // Load other settings from localStorage
+    const autoSaveInterval = document.getElementById('autoSaveInterval');
+    if (autoSaveInterval) {
+      const savedInterval = localStorage.getItem('autoSaveInterval') || '5';
+      autoSaveInterval.value = savedInterval;
+    }
+
+    const reminderSound = document.getElementById('reminderSound');
+    if (reminderSound) {
+      const savedSound = localStorage.getItem('reminderSound') === 'true';
+      reminderSound.checked = savedSound;
+    }
+
+    const breakReminder = document.getElementById('breakReminder');
+    if (breakReminder) {
+      const savedBreak = localStorage.getItem('breakReminder') === 'true';
+      breakReminder.checked = savedBreak;
+    }
+
+    const dailyGoal = document.getElementById('dailyGoal');
+    if (dailyGoal) {
+      const savedGoal = localStorage.getItem('dailyGoal') || '8';
+      dailyGoal.value = savedGoal;
+    }
+
+    const goalNotification = document.getElementById('goalNotification');
+    if (goalNotification) {
+      const savedGoalNotif = localStorage.getItem('goalNotification') !== 'false';
+      goalNotification.checked = savedGoalNotif;
+    }
+  }
+
+  saveSettings() {
+    // Save theme setting
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      const selectedTheme = themeSelect.value;
+      localStorage.setItem('theme', selectedTheme);
+      this.setTheme(selectedTheme);
+    }
+
+    // Save other settings
+    const autoSaveInterval = document.getElementById('autoSaveInterval');
+    if (autoSaveInterval) {
+      localStorage.setItem('autoSaveInterval', autoSaveInterval.value);
+    }
+
+    const reminderSound = document.getElementById('reminderSound');
+    if (reminderSound) {
+      localStorage.setItem('reminderSound', reminderSound.checked.toString());
+    }
+
+    const breakReminder = document.getElementById('breakReminder');
+    if (breakReminder) {
+      localStorage.setItem('breakReminder', breakReminder.checked.toString());
+    }
+
+    const dailyGoal = document.getElementById('dailyGoal');
+    if (dailyGoal) {
+      localStorage.setItem('dailyGoal', dailyGoal.value);
+    }
+
+    const goalNotification = document.getElementById('goalNotification');
+    if (goalNotification) {
+      localStorage.setItem('goalNotification', goalNotification.checked.toString());
+    }
+
+    // Show feedback
+    this.showSettingsSaved();
+  }
+
+  showSettingsSaved() {
+    const saveBtn = document.getElementById('saveSettingsBtn');
+    if (saveBtn) {
+      const originalText = saveBtn.textContent;
+      saveBtn.textContent = '✅ Saved!';
+      saveBtn.disabled = true;
+      
+      setTimeout(() => {
+        saveBtn.textContent = originalText;
+        saveBtn.disabled = false;
+      }, 2000);
+    }
+  }
+
+  async exportData() {
+    try {
+      if (!dataService.getCurrentUser()) {
+        alert('Please log in to export your data.');
+        return;
+      }
+
+      // Get user data
+      const dailyRecords = await dataService.getDailyRecords(365); // Last year
+      const weeklySummary = await dataService.getWeeklySummary();
+      const monthlySummary = await dataService.getMonthlySummary();
+
+      const exportData = {
+        exportDate: new Date().toISOString(),
+        user: dataService.getCurrentUser().email,
+        dailyRecords,
+        weeklySummary,
+        monthlySummary,
+        settings: {
+          theme: localStorage.getItem('theme'),
+          autoSaveInterval: localStorage.getItem('autoSaveInterval'),
+          reminderSound: localStorage.getItem('reminderSound'),
+          breakReminder: localStorage.getItem('breakReminder'),
+          dailyGoal: localStorage.getItem('dailyGoal'),
+          goalNotification: localStorage.getItem('goalNotification')
+        }
+      };
+
+      // Create and download file
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lock-in-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      logger.log('Data exported successfully');
+    } catch (error) {
+      logger.error('Error exporting data:', error);
+      alert('Error exporting data. Please try again.');
+    }
+  }
+
+  clearData() {
+    if (!dataService.getCurrentUser()) {
+      alert('Please log in to clear your data.');
+      return;
+    }
+
+    const confirmation = confirm(
+      'Are you sure you want to clear ALL your timer data?\n\n' +
+      'This action cannot be undone and will permanently delete:\n' +
+      '• All daily timer records\n' +
+      '• All reports data\n' +
+      '• All statistics\n\n' +
+      'Type "DELETE" in the next prompt to confirm.'
+    );
+
+    if (confirmation) {
+      const doubleConfirm = prompt('Type "DELETE" to confirm (case-sensitive):');
+      if (doubleConfirm === 'DELETE') {
+        try {
+          // Clear data through dataService
+          dataService.clearAllData();
+          
+          // Refresh reports if open
+          if (reportsService.isReportsOpen()) {
+            reportsService.loadReports();
+          }
+          
+          alert('All data has been cleared successfully.');
+          logger.log('All user data cleared');
+        } catch (error) {
+          logger.error('Error clearing data:', error);
+          alert('Error clearing data. Please try again.');
+        }
+      } else {
+        alert('Data clearing cancelled - confirmation text did not match.');
+      }
+    }
   }
 
   async handleSignOut() {

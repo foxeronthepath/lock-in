@@ -11,6 +11,7 @@ import {
   where,
   orderBy,
   getDocs,
+  deleteDoc,
   limit
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
@@ -252,6 +253,42 @@ class DataService {
 
   getCurrentUser() {
     return this.currentUser;
+  }
+
+  async clearAllData() {
+    if (!this.currentUser) return;
+    
+    try {
+      // Clear daily time records
+      const dailyTimeRef = collection(db, 'users', this.currentUser.uid, 'dailyTime');
+      const dailyTimeSnapshot = await getDocs(dailyTimeRef);
+      
+      const deletePromises = [];
+      dailyTimeSnapshot.forEach((doc) => {
+        deletePromises.push(deleteDoc(doc.ref));
+      });
+      
+      // Clear daily records
+      const dailyRecordsRef = collection(db, 'users', this.currentUser.uid, 'dailyRecords');
+      const dailyRecordsSnapshot = await getDocs(dailyRecordsRef);
+      
+      dailyRecordsSnapshot.forEach((doc) => {
+        deletePromises.push(deleteDoc(doc.ref));
+      });
+      
+      // Execute all deletions
+      await Promise.all(deletePromises);
+      
+      // Reset timer to 0
+      if (window.timerService) {
+        window.timerService.setTodayTime(0);
+      }
+      
+      console.log('All user data cleared successfully');
+    } catch (error) {
+      console.error('Error clearing user data:', error);
+      throw error;
+    }
   }
 }
 
