@@ -3,45 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lock In - Focus Timer</title>
-    <link rel="stylesheet" href="style/main-page.css" />
+    <title>Lock In - Login</title>
+    <link rel="stylesheet" href="style/login.css" />
   </head>
   <body>
-    <div class="container">
-      <div id="loadingSection" class="loading">
-        <div>🔄 Loading...</div>
-      </div>
+    <div class="login-container">
+      <div class="logo">🔒 Lock In</div>
+      <div class="subtitle">Focus Timer & Productivity Tracker</div>
 
-      <!-- Timer Section (shows after login verification) -->
-      <div id="timerSection" style="display: none">
-        <div class="user-info">
-          <strong>Welcome!</strong> <span id="userEmail"></span>
-          <button onclick="logout()" class="logout-btn">Logout</button>
+      <div id="authError" class="error"></div>
+
+      <form id="authForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
         </div>
 
-        <div id="timer" class="timer">00:00:00</div>
-
-        <div class="controls">
-          <button onclick="start()" id="startBtn">▶️ Start</button>
-          <button onclick="stop()" id="stopBtn" disabled>⏸️ Stop</button>
-          <button onclick="reset()" id="resetBtn">🔄 Reset</button>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
         </div>
 
-        <div class="stats">
-          <h3>📊 Your Stats</h3>
-          <p>
-            <strong>Total Focus Time:</strong>
-            <span id="totalTime">0 minutes</span>
-          </p>
-          <p>
-            <strong>Sessions Completed:</strong>
-            <span id="totalSessions">0</span>
-          </p>
-          <p>
-            <strong>Last Session:</strong> <span id="lastSession">Never</span>
-          </p>
+        <div class="button-group">
+          <button type="button" onclick="signIn()" class="btn-primary">
+            Login
+          </button>
+          <button type="button" onclick="signUp()" class="btn-secondary">
+            Create Account
+          </button>
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- Firebase SDK -->
@@ -70,6 +71,5 @@
     </script>
 
     <script type="module" src="auth.js"></script>
-    <script src="timer.js"></script>
   </body>
 </html>
