@@ -199,7 +199,6 @@ class AuthService {
       logger.error('Error checking historical data:', error);
     }
   }
-
   showTimerSection() {
     const loadingSection = document.getElementById('loadingSection');
     const timerSection = document.getElementById('timerSection');
