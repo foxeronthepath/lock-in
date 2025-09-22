@@ -23,6 +23,7 @@ import {
 
 import { generateHistoricalData } from '../utils/dataGenerator.js';
 import { formatDateString } from '../utils/dateUtils.js';
+import { logger } from '../../utils/logger.js';
 
 class AuthService {
   constructor() {
@@ -48,15 +49,15 @@ class AuthService {
   }
 
   async handleAuthStateChange(user) {
-    console.log("Auth state changed. User:", user ? user.email : "null");
-    console.log("Current pathname:", window.location.pathname);
+    logger.log("Auth state changed. User:", user ? user.email : "null");
+    logger.log("Current pathname:", window.location.pathname);
     
     if (user) {
-      console.log("User is logged in:", user.email);
+      logger.log("User is logged in:", user.email);
       
       // Redirect to main page if on login page
       if (window.location.pathname.includes('login.html') || window.location.pathname.endsWith('/login.html')) {
-        console.log("Redirecting from login to index...");
+        logger.log("Redirecting from login to index...");
         window.location.href = 'index.html';
         return;
       }
@@ -68,7 +69,7 @@ class AuthService {
       }
       
     } else {
-      console.log("User is logged out");
+      logger.log("User is logged out");
       this.currentUser = null;
       
       // Redirect to login if on main page or root
@@ -78,7 +79,7 @@ class AuthService {
                         window.location.pathname === '';
       
       if (isMainPage) {
-        console.log("Redirecting to login page...");
+        logger.log("Redirecting to login page...");
         window.location.href = 'login.html';
         return;
       }
@@ -96,14 +97,14 @@ class AuthService {
     
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User created successfully:", userCredential.user.email);
+      logger.log("User created successfully:", userCredential.user.email);
       
       // Initialize user data in database
       await this.createUserDocument(userCredential.user);
       
       return userCredential.user;
     } catch (error) {
-      console.error("Sign up error:", error);
+      logger.error("Sign up error:", error);
       throw new Error(this.getErrorMessage(error.code));
     }
   }
@@ -115,10 +116,10 @@ class AuthService {
     
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("User signed in successfully:", userCredential.user.email);
+      logger.log("User signed in successfully:", userCredential.user.email);
       return userCredential.user;
     } catch (error) {
-      console.error("Sign in error:", error);
+      logger.error("Sign in error:", error);
       throw new Error(this.getErrorMessage(error.code));
     }
   }
@@ -131,9 +132,9 @@ class AuthService {
       }
       
       await signOut(auth);
-      console.log("User signed out successfully");
+      logger.log("User signed out successfully");
     } catch (error) {
-      console.error("Sign out error:", error);
+      logger.error("Sign out error:", error);
       throw error;
     }
   }
@@ -147,9 +148,9 @@ class AuthService {
     
     try {
       await setDoc(userRef, userData);
-      console.log("User data initialized in database");
+      logger.log("User data initialized in database");
     } catch (error) {
-      console.error("Error initializing user data:", error);
+      logger.error("Error initializing user data:", error);
     }
   }
 
@@ -157,24 +158,24 @@ class AuthService {
     if (!this.currentUser) return;
 
     try {
-      console.log("Initializing user data for:", this.currentUser.email);
+      logger.log("Initializing user data for:", this.currentUser.email);
       
       // Load existing data and check if we need to generate historical data
       await this.checkAndGenerateHistoricalData();
       
       // Load today's time
       if (window.dataService) {
-        console.log("Loading today's time...");
+        logger.log("Loading today's time...");
         await window.dataService.loadTodayTime();
         
-        console.log("Checking previous days...");
+        logger.log("Checking previous days...");
         await window.dataService.checkAndFinalizePreviousDays();
       }
       
-      console.log("User data initialization completed");
+      logger.log("User data initialization completed");
       
     } catch (error) {
-      console.error("Error initializing user data:", error);
+      logger.error("Error initializing user data:", error);
       // Don't let initialization errors break the app
       // Show timer section anyway
       this.showTimerSection();
@@ -191,11 +192,11 @@ class AuthService {
       
       // If user has less than 5 records, generate historical data
       if (snapshot.size < 5) {
-        console.log('New user detected, generating historical work data...');
+        logger.log('New user detected, generating historical work data...');
         await generateHistoricalData(this.currentUser.uid);
       }
     } catch (error) {
-      console.error('Error checking historical data:', error);
+      logger.error('Error checking historical data:', error);
     }
   }
 
@@ -203,7 +204,7 @@ class AuthService {
     const loadingSection = document.getElementById('loadingSection');
     const timerSection = document.getElementById('timerSection');
     
-    console.log("Showing timer section for user:", this.currentUser?.email);
+    logger.log("Showing timer section for user:", this.currentUser?.email);
     
     if (loadingSection) loadingSection.style.display = 'none';
     if (timerSection) {

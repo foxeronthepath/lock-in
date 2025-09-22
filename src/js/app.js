@@ -3,6 +3,8 @@ import { authService } from './modules/auth.js';
 import { timerService } from './modules/timer.js';
 import { dataService } from './modules/dataService.js';
 import { reportsService } from './modules/reports.js';
+import { logger } from '../utils/logger.js';
+import { getEnvironmentConfig } from '../config/env.js';
 
 class App {
   constructor() {
@@ -22,14 +24,7 @@ class App {
     // Set up global functions for HTML event handlers
     this.setupGlobalFunctions();
 
-    console.log('Lock-In app initialized successfully');
-    console.log('Global functions available:', {
-      signUp: typeof window.signUp,
-      signIn: typeof window.signIn, 
-      logout: typeof window.logout,
-      start: typeof window.start,
-      stop: typeof window.stop
-    });
+    logger.log('Lock-In app initialized successfully');
   }
 
   setupUserTracking() {
@@ -71,13 +66,11 @@ class App {
     };
 
     window.logout = async () => {
-      console.log('Logout function called!');
       try {
-        console.log('Calling authService.logout()...');
         await authService.logout();
-        console.log('Logout successful!');
+        logger.log('Logout successful!');
       } catch (error) {
-        console.error('Logout error:', error);
+        logger.error('Logout error:', error);
         alert('Error logging out. Please try again.');
       }
     };
@@ -96,52 +89,45 @@ class App {
       reportsService.toggleReports();
     };
 
-    // Legacy compatibility functions
-    window.setTodayTime = (seconds) => {
-      timerService.setTodayTime(seconds);
-    };
+    // Only expose debug functions in development
+    const config = getEnvironmentConfig();
+    if (config.enableDebugFunctions) {
+      // Debug functions for localStorage backup testing (dev only)
+      window.checkBackup = () => {
+        return timerService.checkLocalStorageBackup();
+      };
 
-    window.saveDailyTime = (seconds) => {
-      if (dataService.getCurrentUser()) {
-        dataService.saveDailyTime(seconds);
-      }
-    };
+      window.clearBackup = () => {
+        timerService.clearLocalStorageBackup();
+      };
 
-    // Debug functions for localStorage backup testing
-    window.checkBackup = () => {
-      return timerService.checkLocalStorageBackup();
-    };
+      window.finalizeTodaysTime = () => {
+        if (dataService.getCurrentUser()) {
+          return dataService.finalizeTodaysTime();
+        }
+      };
 
-    window.clearBackup = () => {
-      timerService.clearLocalStorageBackup();
-    };
+      window.getDailyRecords = (days) => {
+        if (dataService.getCurrentUser()) {
+          return dataService.getDailyRecords(days);
+        }
+        return [];
+      };
 
-    window.finalizeTodaysTime = () => {
-      if (dataService.getCurrentUser()) {
-        return dataService.finalizeTodaysTime();
-      }
-    };
+      window.getWeeklySummary = () => {
+        if (dataService.getCurrentUser()) {
+          return dataService.getWeeklySummary();
+        }
+        return { totalHours: 0, avgHoursPerDay: 0, daysWorked: 0, records: [] };
+      };
 
-    window.getDailyRecords = (days) => {
-      if (dataService.getCurrentUser()) {
-        return dataService.getDailyRecords(days);
-      }
-      return [];
-    };
-
-    window.getWeeklySummary = () => {
-      if (dataService.getCurrentUser()) {
-        return dataService.getWeeklySummary();
-      }
-      return { totalHours: 0, avgHoursPerDay: 0, daysWorked: 0, records: [] };
-    };
-
-    window.getMonthlySummary = () => {
-      if (dataService.getCurrentUser()) {
-        return dataService.getMonthlySummary();
-      }
-      return { totalHours: 0, avgHoursPerDay: 0, daysWorked: 0, records: [] };
-    };
+      window.getMonthlySummary = () => {
+        if (dataService.getCurrentUser()) {
+          return dataService.getMonthlySummary();
+        }
+        return { totalHours: 0, avgHoursPerDay: 0, daysWorked: 0, records: [] };
+      };
+    }
   }
 
   showError(message) {
