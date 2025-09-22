@@ -24,6 +24,9 @@ class App {
     // Set up global functions for HTML event handlers
     this.setupGlobalFunctions();
 
+    // Set up navigation functionality
+    this.setupNavigation();
+
     logger.log('Lock-In app initialized successfully');
   }
 
@@ -32,8 +35,118 @@ class App {
     const originalHandleAuthStateChange = authService.handleAuthStateChange.bind(authService);
     authService.handleAuthStateChange = (user) => {
       dataService.setCurrentUser(user);
+      this.updateProfileDisplay(user);
       return originalHandleAuthStateChange(user);
     };
+  }
+
+  setupNavigation() {
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      // Load saved theme or default to light
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      this.setTheme(savedTheme);
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        this.setTheme(newTheme);
+      });
+    }
+
+    // Reports navigation button
+    const reportsNavBtn = document.getElementById('reportsNavBtn');
+    if (reportsNavBtn) {
+      reportsNavBtn.addEventListener('click', () => {
+        reportsService.toggleReports();
+      });
+    }
+
+    // Profile dropdown functionality
+    const profileCircle = document.getElementById('profileCircle');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    if (profileCircle && profileDropdown) {
+      profileCircle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleProfileDropdown();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!profileDropdown.contains(e.target) && !profileCircle.contains(e.target)) {
+          this.closeProfileDropdown();
+        }
+      });
+    }
+
+    // Dropdown menu item handlers
+    const settingsBtn = document.getElementById('settingsBtn');
+    const signOutBtn = document.getElementById('signOutBtn');
+
+    if (settingsBtn) {
+      settingsBtn.addEventListener('click', () => {
+        this.closeProfileDropdown();
+        this.openSettings();
+      });
+    }
+
+    if (signOutBtn) {
+      signOutBtn.addEventListener('click', () => {
+        this.closeProfileDropdown();
+        this.handleSignOut();
+      });
+    }
+  }
+
+  setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+      themeToggle.title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+    }
+  }
+
+  updateProfileDisplay(user) {
+    const profileInitial = document.getElementById('profileInitial');
+    if (profileInitial && user) {
+      const email = user.email || 'User';
+      const initial = email.charAt(0).toUpperCase();
+      profileInitial.textContent = initial;
+    }
+  }
+
+  toggleProfileDropdown() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileDropdown) {
+      profileDropdown.classList.toggle('show');
+    }
+  }
+
+  closeProfileDropdown() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileDropdown) {
+      profileDropdown.classList.remove('show');
+    }
+  }
+
+  openSettings() {
+    // For now, show a simple alert - can be expanded to a modal later
+    alert('Settings panel coming soon! 🛠️\n\nHere you could configure:\n• Theme preferences\n• Timer settings\n• Notification preferences\n• Data export options');
+  }
+
+  async handleSignOut() {
+    try {
+      await authService.logout();
+      logger.log('User signed out successfully');
+    } catch (error) {
+      logger.error('Sign out error:', error);
+      alert('Error signing out. Please try again.');
+    }
   }
 
   setupGlobalFunctions() {

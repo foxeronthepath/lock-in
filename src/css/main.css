@@ -5,6 +5,7 @@
 @import './components/forms.css';
 @import './components/cards.css';
 @import './components/reports.css';
+@import './components/navbar.css';
 
 /* Page-specific styles */
 .controls {

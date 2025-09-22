@@ -50,10 +50,20 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  color: var(--text-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-color);
+}
+
+/* Main content area */
+.main-content {
+  padding-top: 80px; /* Account for fixed navbar */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
 }
 
 /* Utility Classes */

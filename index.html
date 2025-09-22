@@ -7,65 +7,98 @@
     <link rel="stylesheet" href="src/css/main.css" />
   </head>
   <body>
-    <div class="container card">
-      <div id="loadingSection" class="loading">
-        <div>🔄 Loading...</div>
-      </div>
-
-      <!-- Timer Section (shows after login verification) -->
-      <div id="timerSection" style="display: none">
-        <div class="user-info">
-          <strong>Welcome!</strong> <span id="userEmail"></span>
-          <button onclick="logout()" class="logout-btn">Logout</button>
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo Section -->
+        <div class="navbar-brand">
+          <div class="logo">🔒 Lock In</div>
         </div>
-
-        <div id="timer" class="timer">00:00:00</div>
-
-        <div class="controls">
-          <button onclick="start()" id="startBtn" class="btn btn-success">▶️ Start</button>
-          <button onclick="stop()" id="stopBtn" class="btn btn-danger" disabled>⏸️ Stop</button>
-        </div>
-
-        <!-- Reports Panel -->
-        <div class="reports-panel">
-          <div class="panel-header">
-            <h3>📊 Work Reports</h3>
-            <div class="report-controls">
-              <button onclick="toggleReports()" id="toggleReportsBtn" class="btn btn-primary btn-sm">Show Reports</button>
+        
+        <!-- Right Navigation Items -->
+        <div class="navbar-nav">
+          <button id="reportsNavBtn" class="nav-item nav-btn">📊 Reports</button>
+          <button id="themeToggle" class="nav-item nav-icon" title="Toggle theme">🌙</button>
+          <div class="nav-item nav-profile">
+            <div class="profile-circle" id="profileCircle">
+              <span id="profileInitial">U</span>
             </div>
-          </div>
-          
-          <div id="reportsContent" style="display: none;">
-            <!-- Summary Stats -->
-            <div class="summary-stats">
-              <div class="stat-card">
-                <div class="stat-label">This Week</div>
-                <div class="stat-value" id="weeklyHours">0h</div>
+            <!-- Dropdown Menu -->
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="dropdown-item" id="settingsBtn">
+                <span class="dropdown-icon">⚙️</span>
+                <span>Settings</span>
               </div>
-              <div class="stat-card">
-                <div class="stat-label">This Month</div>
-                <div class="stat-value" id="monthlyHours">0h</div>
+              <div class="dropdown-item" id="signOutBtn">
+                <span class="dropdown-icon">🚪</span>
+                <span>Sign out</span>
               </div>
-              <div class="stat-card">
-                <div class="stat-label">Average/Day</div>
-                <div class="stat-value" id="avgDaily">0h</div>
-              </div>
-            </div>
-
-            <!-- Daily Chart -->
-            <div class="chart-container">
-              <h4>Daily Work Hours (Last 30 Days)</h4>
-              <div id="dailyChart" class="chart"></div>
-            </div>
-
-            <!-- Recent Days List -->
-            <div class="recent-days">
-              <h4>Recent Work Days</h4>
-              <div id="recentDaysList" class="days-list"></div>
             </div>
           </div>
         </div>
       </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container card">
+        <div id="loadingSection" class="loading">
+          <div>🔄 Loading...</div>
+        </div>
+        <!-- Timer Section (shows after login verification) -->
+        <div id="timerSection" style="display: none">
+          <div class="user-info">
+            <strong>Welcome!</strong> <span id="userEmail"></span>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+          </div>
+
+          <div id="timer" class="timer">00:00:00</div>
+
+          <div class="controls">
+            <button onclick="start()" id="startBtn" class="btn btn-success">▶️ Start</button>
+            <button onclick="stop()" id="stopBtn" class="btn btn-danger" disabled>⏸️ Stop</button>
+          </div>
+
+          <!-- Reports Panel -->
+          <div class="reports-panel">
+            <div class="panel-header">
+              <h3>📊 Work Reports</h3>
+              <div class="report-controls">
+                <button onclick="toggleReports()" id="toggleReportsBtn" class="btn btn-primary btn-sm">Show Reports</button>
+              </div>
+            </div>
+            
+            <div id="reportsContent" style="display: none;">
+              <!-- Summary Stats -->
+              <div class="summary-stats">
+                <div class="stat-card">
+                  <div class="stat-label">This Week</div>
+                  <div class="stat-value" id="weeklyHours">0h</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">This Month</div>
+                  <div class="stat-value" id="monthlyHours">0h</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Average/Day</div>
+                  <div class="stat-value" id="avgDaily">0h</div>
+                </div>
+              </div>
+
+              <!-- Daily Chart -->
+              <div class="chart-container">
+                <h4>Daily Work Hours (Last 30 Days)</h4>
+                <div id="dailyChart" class="chart"></div>
+              </div>
+
+              <!-- Recent Days List -->
+              <div class="recent-days">
+                <h4>Recent Work Days</h4>
+                <div id="recentDaysList" class="days-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
     </div>
 
     <script type="module" src="src/js/app.js"></script>
