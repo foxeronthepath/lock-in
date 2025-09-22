@@ -24,22 +24,46 @@
         <div class="controls">
           <button onclick="start()" id="startBtn">▶️ Start</button>
           <button onclick="stop()" id="stopBtn" disabled>⏸️ Stop</button>
-          <button onclick="reset()" id="resetBtn">🔄 Reset</button>
         </div>
 
-        <div class="stats">
-          <h3>📊 Your Stats</h3>
-          <p>
-            <strong>Total Focus Time:</strong>
-            <span id="totalTime">0 minutes</span>
-          </p>
-          <p>
-            <strong>Sessions Completed:</strong>
-            <span id="totalSessions">0</span>
-          </p>
-          <p>
-            <strong>Last Session:</strong> <span id="lastSession">Never</span>
-          </p>
+        <!-- Reports Panel -->
+        <div class="reports-panel">
+          <div class="panel-header">
+            <h3>📊 Work Reports</h3>
+            <div class="report-controls">
+              <button onclick="toggleReports()" id="toggleReportsBtn">Show Reports</button>
+            </div>
+          </div>
+          
+          <div id="reportsContent" style="display: none;">
+            <!-- Summary Stats -->
+            <div class="summary-stats">
+              <div class="stat-card">
+                <div class="stat-label">This Week</div>
+                <div class="stat-value" id="weeklyHours">0h</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">This Month</div>
+                <div class="stat-value" id="monthlyHours">0h</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Average/Day</div>
+                <div class="stat-value" id="avgDaily">0h</div>
+              </div>
+            </div>
+
+            <!-- Daily Chart -->
+            <div class="chart-container">
+              <h4>Daily Work Hours (Last 30 Days)</h4>
+              <div id="dailyChart" class="chart"></div>
+            </div>
+
+            <!-- Recent Days List -->
+            <div class="recent-days">
+              <h4>Recent Work Days</h4>
+              <div id="recentDaysList" class="days-list"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -71,5 +95,6 @@
 
     <script type="module" src="auth.js"></script>
     <script src="timer.js"></script>
+    <script src="reports.js"></script>
   </body>
 </html>
