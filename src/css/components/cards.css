@@ -60,9 +60,9 @@
   background: var(--background-light);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
-  border: 3px solid var(--primary-color);
   letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
+  border: 1px solid red;
 }
 
 /* Statistics Cards */
