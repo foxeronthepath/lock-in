@@ -367,6 +367,9 @@ class App {
     // Store reference to app instance for error handling
     const app = this;
     
+    // Set up login page specific functionality
+    this.setupLoginPageFunctionality(app);
+    
     // Authentication functions for login page
     window.signUp = async () => {
       const email = document.getElementById('email')?.value;
@@ -454,6 +457,70 @@ class App {
         }
         return { totalHours: 0, avgHoursPerDay: 0, daysWorked: 0, records: [] };
       };
+    }
+  }
+
+  setupLoginPageFunctionality(app) {
+    // Password toggle functionality
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordInput = document.getElementById('password');
+    
+    if (passwordToggle && passwordInput) {
+      passwordToggle.addEventListener('click', () => {
+        const eyeIcon = passwordToggle.querySelector('.eye-icon');
+        
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeIcon.src = 'src/icons/eye-closed.svg';
+          eyeIcon.alt = 'Hide password';
+        } else {
+          passwordInput.type = 'password';
+          eyeIcon.src = 'src/icons/eye-open.svg';
+          eyeIcon.alt = 'Show password';
+        }
+      });
+    }
+
+    // Enter key functionality for login form
+    const authForm = document.getElementById('authForm');
+    if (authForm) {
+      authForm.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // Prevent default form submission
+          window.signIn(); // Trigger the login function
+        }
+      });
+    }
+
+    // Global Enter key listener for the entire login page
+    // Check if we're on the login page by looking for the authForm
+    if (authForm) {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          window.signIn();
+        }
+      });
+    }
+
+    // Also add Enter key listener to individual form fields for better UX
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+      emailInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          window.signIn();
+        }
+      });
+    }
+    
+    if (passwordInput) {
+      passwordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          window.signIn();
+        }
+      });
     }
   }
 

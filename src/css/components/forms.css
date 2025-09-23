@@ -24,6 +24,49 @@ input[type="text"] {
   font-family: var(--font-family);
 }
 
+/* Password Input Container */
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-container input[type="password"] {
+  padding-right: 50px; /* Make room for the eye button */
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-muted);
+  font-size: 18px;
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle-btn:hover {
+  color: var(--primary-color);
+}
+
+.password-toggle-btn:focus {
+  outline: none;
+  color: var(--primary-color);
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  transition: opacity var(--transition-fast);
+}
+
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus {
