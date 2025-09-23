@@ -73,7 +73,17 @@ body {
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
   border: 1px solid red;
+}
+
+.lock-icon {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+  filter: brightness(0);
 }
 
 .subtitle {
