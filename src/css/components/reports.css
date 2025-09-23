@@ -311,18 +311,5 @@
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .reports-overlay {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-[data-theme="dark"] .reports-modal {
-  background: var(--background-white);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .stat-card {
-  background: linear-gradient(135deg, var(--background-light), var(--background-white));
-  border-color: var(--border-color);
-}
 
 

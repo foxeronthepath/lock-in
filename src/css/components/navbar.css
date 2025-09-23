@@ -10,10 +10,6 @@
   border: 1px solid red;
 }
 
-[data-theme="dark"] .navbar {
-  background: var(--background-white);
-  border-bottom: 1px solid var(--border-color);
-}
 
 .navbar-container {
   max-width: 1200px;
@@ -108,10 +104,6 @@
   transition: all var(--transition-normal);
 }
 
-[data-theme="dark"] .profile-dropdown {
-  background: var(--background-white);
-  border-color: var(--border-color);
-}
 
 .profile-dropdown.show {
   opacity: 1;

@@ -223,37 +223,4 @@
   justify-content: center;
 }
 
-[data-theme="dark"] .settings-content {
-  background: var(--background-white);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
-}
-
-[data-theme="dark"] .settings-header,
-[data-theme="dark"] .settings-footer {
-  background: var(--background-light);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .setting-control {
-  background: var(--background-light);
-  border-color: var(--border-color);
-  color: var(--text-color);
-}
-
-[data-theme="dark"] .setting-control:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
-}
-
-[data-theme="dark"] .toggle-slider {
-  background-color: #4b5563;
-}
-
-[data-theme="dark"] .toggle-input:checked + .toggle-slider {
-  background-color: var(--primary-color);
-}
-
-[data-theme="dark"] .close-btn:hover {
-  background: var(--background-white);
-}
 

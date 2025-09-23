@@ -41,19 +41,8 @@ class App {
   }
 
   setupNavigation() {
-    // Theme toggle functionality
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-      // Load saved theme or default to light
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      this.setTheme(savedTheme);
-      
-      themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        this.setTheme(newTheme);
-      });
-    }
+    // Set dark theme by default
+    this.setTheme('dark');
 
     // Reports navigation button
     const reportsNavBtn = document.getElementById('reportsNavBtn');
@@ -144,15 +133,6 @@ class App {
       });
     }
 
-    // Theme selector change
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      themeSelect.addEventListener('change', () => {
-        const selectedTheme = themeSelect.value;
-        this.setTheme(selectedTheme);
-      });
-    }
-
     // Escape key to close settings
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -165,14 +145,7 @@ class App {
   }
 
   setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-      themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
-      themeToggle.title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
-    }
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
 
   updateProfileDisplay(user) {
@@ -219,13 +192,6 @@ class App {
   }
 
   loadSettings() {
-    // Load theme setting
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      themeSelect.value = savedTheme;
-    }
-
     // Load other settings from localStorage
     const autoSaveInterval = document.getElementById('autoSaveInterval');
     if (autoSaveInterval) {
@@ -259,14 +225,6 @@ class App {
   }
 
   saveSettings() {
-    // Save theme setting
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      const selectedTheme = themeSelect.value;
-      localStorage.setItem('theme', selectedTheme);
-      this.setTheme(selectedTheme);
-    }
-
     // Save other settings
     const autoSaveInterval = document.getElementById('autoSaveInterval');
     if (autoSaveInterval) {
@@ -330,7 +288,6 @@ class App {
         weeklySummary,
         monthlySummary,
         settings: {
-          theme: localStorage.getItem('theme'),
           autoSaveInterval: localStorage.getItem('autoSaveInterval'),
           reminderSound: localStorage.getItem('reminderSound'),
           breakReminder: localStorage.getItem('breakReminder'),
