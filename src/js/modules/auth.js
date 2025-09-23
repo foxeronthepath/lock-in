@@ -64,7 +64,6 @@ class AuthService {
       
       // Initialize main app if on main page
       if (document.getElementById('timerSection')) {
-        this.showTimerSection();
         await this.initializeUserData();
       }
       
@@ -177,8 +176,6 @@ class AuthService {
     } catch (error) {
       logger.error("Error initializing user data:", error);
       // Don't let initialization errors break the app
-      // Show timer section anyway
-      this.showTimerSection();
     }
   }
 
@@ -197,22 +194,6 @@ class AuthService {
       }
     } catch (error) {
       logger.error('Error checking historical data:', error);
-    }
-  }
-  showTimerSection() {
-    const loadingSection = document.getElementById('loadingSection');
-    const timerSection = document.getElementById('timerSection');
-    
-    logger.log("Showing timer section for user:", this.currentUser?.email);
-    
-    if (loadingSection) loadingSection.style.display = 'none';
-    if (timerSection) {
-      timerSection.style.display = 'block';
-      // Show user email
-      const userEmailEl = document.getElementById('userEmail');
-      if (userEmailEl && this.currentUser) {
-        userEmailEl.textContent = this.currentUser.email;
-      }
     }
   }
 
