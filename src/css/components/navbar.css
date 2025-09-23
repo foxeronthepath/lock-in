@@ -1,5 +1,3 @@
-/* Navigation Bar Component */
-
 .navbar {
   position: fixed;
   top: 0;
@@ -9,6 +7,12 @@
   box-shadow: var(--shadow-light);
   z-index: 1000;
   padding: 0;
+  border: 1px solid red;
+}
+
+[data-theme="dark"] .navbar {
+  background: var(--background-white);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .navbar-container {
@@ -18,12 +22,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-md) var(--spacing-lg);
-}
-
-/* Logo Section */
-.navbar-brand {
-  display: flex;
-  align-items: center;
+  border: 1px solid red;
 }
 
 .navbar-brand .logo {
@@ -34,20 +33,13 @@
   text-decoration: none;
 }
 
-/* Navigation Items */
 .navbar-nav {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
+  border: 1px solid red;
 }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-/* Navigation Button */
 .nav-btn {
   background: var(--primary-color);
   color: var(--background-white);
@@ -58,14 +50,9 @@
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-normal);
+  border: 1px solid red;
 }
 
-.nav-btn:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-/* Navigation Icon Button */
 .nav-icon {
   background: none;
   border: none;
@@ -79,14 +66,9 @@
   justify-content: center;
   width: 40px;
   height: 40px;
+  border: 1px solid red;
 }
 
-.nav-icon:hover {
-  background: var(--background-light);
-  transform: scale(1.1);
-}
-
-/* Profile Circle */
 .nav-profile {
   margin-left: var(--spacing-sm);
   position: relative;
@@ -106,14 +88,9 @@
   cursor: pointer;
   transition: all var(--transition-normal);
   box-shadow: var(--shadow-light);
+  border: 1px solid red;
 }
 
-.profile-circle:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-medium);
-}
-
-/* Profile Dropdown Menu */
 .profile-dropdown {
   position: absolute;
   top: 100%;
@@ -129,6 +106,11 @@
   visibility: hidden;
   transform: translateY(-10px);
   transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] .profile-dropdown {
+  background: var(--background-white);
+  border-color: var(--border-color);
 }
 
 .profile-dropdown.show {
@@ -149,111 +131,6 @@
   margin: 4px;
 }
 
-.dropdown-item:hover {
-  background: var(--background-light);
-}
 
-.dropdown-item:first-child {
-  margin-top: var(--spacing-xs);
-}
 
-.dropdown-item:last-child {
-  margin-bottom: var(--spacing-xs);
-}
 
-.dropdown-icon {
-  font-size: 14px;
-  width: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Arrow indicator for dropdown */
-.profile-dropdown::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  right: 12px;
-  width: 12px;
-  height: 12px;
-  background: var(--background-white);
-  border: 1px solid var(--border-color);
-  border-bottom: none;
-  border-right: none;
-  transform: rotate(45deg);
-}
-
-/* Theme Toggle States */
-.nav-icon.light-mode {
-  /* Moon icon for light mode */
-}
-
-.nav-icon.dark-mode {
-  /* Will show sun icon for dark mode */
-}
-
-/* Dark Theme Variables */
-[data-theme="dark"] {
-  --primary-color: #818cf8;
-  --primary-hover: #6366f1;
-  --secondary-color: #a78bfa;
-  --text-color: #f3f4f6;
-  --text-muted: #d1d5db;
-  --background-light: #000000;
-  --background-white: #1f2937;
-  --border-color: #4b5563;
-  --shadow-light: 0 2px 4px rgba(0,0,0,0.3);
-  --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] body {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-}
-
-[data-theme="dark"] .navbar {
-  background: var(--background-white);
-  border-bottom: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] .profile-dropdown {
-  background: var(--background-white);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .profile-dropdown::before {
-  background: var(--background-white);
-  border-color: var(--border-color);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar-container {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-  
-  .navbar-brand .logo {
-    font-size: 1.2em;
-  }
-  
-  .navbar-nav {
-    gap: var(--spacing-sm);
-  }
-  
-  .nav-btn {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: 12px;
-  }
-  
-  .profile-circle {
-    width: 35px;
-    height: 35px;
-    font-size: 14px;
-  }
-  
-  .nav-icon {
-    width: 35px;
-    height: 35px;
-    font-size: 1em;
-  }
-}
