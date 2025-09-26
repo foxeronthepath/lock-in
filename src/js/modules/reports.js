@@ -65,6 +65,11 @@ class ReportsService {
     setTimeout(() => {
       this.loadReports();
     }, 100);
+
+    // Update navbar visibility when reports overlay opens
+    if (window.app && window.app.updateNavbarVisibility) {
+      setTimeout(() => window.app.updateNavbarVisibility(), 100);
+    }
   }
 
   hideOverlay() {
@@ -78,6 +83,11 @@ class ReportsService {
     setTimeout(() => {
       document.body.style.overflow = '';
     }, 300);
+
+    // Update navbar visibility when reports overlay closes
+    if (window.app && window.app.updateNavbarVisibility) {
+      setTimeout(() => window.app.updateNavbarVisibility(), 100);
+    }
   }
 
   toggleOverlay() {

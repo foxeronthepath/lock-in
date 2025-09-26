@@ -8,6 +8,13 @@
   z-index: 1000;
   padding: 0;
   border: 1px solid red;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 

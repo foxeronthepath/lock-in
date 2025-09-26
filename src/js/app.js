@@ -17,6 +17,7 @@ class App {
     window.timerService = timerService;
     window.dataService = dataService;
     window.reportsService = reportsService;
+    window.app = this; // Make app instance available globally for navbar updates
 
     // Set up data service to track current user
     this.setupUserTracking();
@@ -43,6 +44,9 @@ class App {
   setupNavigation() {
     // Set dark theme by default
     this.setTheme('dark');
+
+    // Initialize navbar visibility behavior
+    this.setupNavbarVisibility();
 
     // Reports navigation button
     const reportsNavBtn = document.getElementById('reportsNavBtn');
@@ -148,6 +152,54 @@ class App {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 
+  setupNavbarVisibility() {
+    // Check and update navbar visibility based on content height
+    this.updateNavbarVisibility();
+
+    // Listen for window resize events
+    window.addEventListener('resize', () => {
+      this.updateNavbarVisibility();
+    });
+
+    // Listen for content changes (when reports/settings open/close)
+    const reportsOverlay = document.getElementById('reportsOverlay');
+    const settingsPanel = document.getElementById('settingsPanel');
+
+    if (reportsOverlay) {
+      const observer = new MutationObserver(() => {
+        // Small delay to ensure DOM has updated
+        setTimeout(() => this.updateNavbarVisibility(), 100);
+      });
+      observer.observe(reportsOverlay, { attributes: true, attributeFilter: ['class', 'style'] });
+    }
+
+    if (settingsPanel) {
+      const observer = new MutationObserver(() => {
+        // Small delay to ensure DOM has updated
+        setTimeout(() => this.updateNavbarVisibility(), 100);
+      });
+      observer.observe(settingsPanel, { attributes: true, attributeFilter: ['class', 'style'] });
+    }
+  }
+
+  updateNavbarVisibility() {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    // Define the viewport height threshold (in pixels) below which navbar should be hidden
+    const viewportHeightThreshold = 200; // You can adjust this value as needed
+    
+    // Get the current viewport height
+    const viewportHeight = window.innerHeight;
+
+    // Hide navbar if viewport height is below the threshold (browser window is short)
+    if (viewportHeight <= viewportHeightThreshold) {
+      navbar.classList.add('hidden');
+    } else {
+      navbar.classList.remove('hidden');
+    }
+  }
+
   updateProfileDisplay(user) {
     const profileInitial = document.getElementById('profileInitial');
     if (profileInitial && user) {
@@ -155,6 +207,8 @@ class App {
       const initial = email.charAt(0).toUpperCase();
       profileInitial.textContent = initial;
     }
+    // Update navbar visibility when user state changes
+    setTimeout(() => this.updateNavbarVisibility(), 100);
   }
 
   toggleProfileDropdown() {
@@ -181,6 +235,8 @@ class App {
       if (closeBtn) {
         closeBtn.focus();
       }
+      // Update navbar visibility after settings panel opens
+      setTimeout(() => this.updateNavbarVisibility(), 100);
     }
   }
 
@@ -188,6 +244,8 @@ class App {
     const settingsPanel = document.getElementById('settingsPanel');
     if (settingsPanel) {
       settingsPanel.classList.remove('open');
+      // Update navbar visibility after settings panel closes
+      setTimeout(() => this.updateNavbarVisibility(), 100);
     }
   }
 
