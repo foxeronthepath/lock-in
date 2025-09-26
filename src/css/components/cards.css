@@ -1,5 +1,6 @@
 .card {
   width: 100%;
+  
 }
 
 .card-header {
@@ -24,10 +25,10 @@
 
 .container {
   text-align: center;
-  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 10px;
 }
 
 .login-container {
@@ -65,7 +66,8 @@
   display: flex;
   gap: 35px;
   justify-content: center;
-  margin: var(--spacing-xl) 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .stat-card {

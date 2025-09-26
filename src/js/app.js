@@ -187,7 +187,7 @@ class App {
     if (!navbar) return;
 
     // Define the viewport height threshold (in pixels) below which navbar should be hidden
-    const viewportHeightThreshold = 200; // You can adjust this value as needed
+    const viewportHeightThreshold = 250; // You can adjust this value as needed
     
     // Get the current viewport height
     const viewportHeight = window.innerHeight;
