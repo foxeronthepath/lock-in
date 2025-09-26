@@ -1,8 +1,4 @@
 .card {
-  background: #1A1A1A;
-  padding: var(--spacing-xxl);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-medium);
   width: 100%;
 }
 
@@ -27,8 +23,11 @@
 }
 
 .container {
-  max-width: 900px;
   text-align: center;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-container {
@@ -49,25 +48,24 @@
 }
 
 .timer {
-  font-size: 4em;
+  font-size: clamp(2.5rem, 9vw, 10rem);
   font-weight: normal;
   color: var(--text-color);
-  margin: var(--spacing-xl) 0;
   font-family: var(--font-timer);
   background: var(--background-light);
-  padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
+  padding-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
   letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
-  border: 1px solid red;
 }
 
 .controls {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 35px;
   justify-content: center;
   margin: var(--spacing-xl) 0;
-  border: 1px solid red;
 }
 
 .stat-card {

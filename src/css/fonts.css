@@ -1,9 +1,16 @@
 @font-face {
-  font-family: 'ds-digital';
-  src: url('../fonts/ds-digital.ttf') format('truetype'),
-       url('../fonts/ds-digitalb.ttf') format('truetype'),
-       url('../fonts/ds-digitali.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'quartz';
+  src: url('../fonts/quartz.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'orbitron';
+  src: url('../fonts/orbitron.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+

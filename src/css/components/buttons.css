@@ -1,25 +1,24 @@
 /* Button Components */
 
 .btn {
-  padding: 12px 20px;
+  padding: 8px 20px;
   border: none;
-  border-radius: var(--border-radius-md);
-  font-size: 16px;
+  border-radius: var(--border-radius-sm);
+  font-size: 12px;
   cursor: pointer;
   transition: all var(--transition-normal);
   font-weight: 500;
+  letter-spacing: 0.08em;
+  font-family: var(--font-buttons);
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  box-shadow: var(--shadow-light);
 }
 
 .btn:disabled {
   opacity: 0.6;
   transform: none;
-}
-
-.btn:hover:not(:disabled) { 
-  transform: translateY(-1px);
 }
 
 .btn-primary {
@@ -44,23 +43,14 @@
 
 .btn-success {
   background: var(--success-color);
-  color: var(--background-white);
-}
-
-.btn-success:hover:not(:disabled) {
-  background: var(--success-hover);
-  transform: translateY(-2px);
+  color:white;
 }
 
 .btn-danger {
   background: var(--danger-color);
-  color: var(--background-white);
+  color: white;
 }
 
-.btn-danger:hover:not(:disabled) {
-  background: var(--danger-hover);
-  transform: translateY(-2px);
-}
 
 .btn-sm {
   padding: 8px 16px;
